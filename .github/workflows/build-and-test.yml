@@ -41,8 +41,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
       - uses: microsoft/setup-msbuild@v2
+      - uses: actions/setup-dotnet@v4
       - run: |
           Rename-Item (Join-Path (Split-Path (Get-Command msbuild.exe).Path) 'msbuild.exe.config') -NewName dotnet.exe.config
           &(Rename-Item (Get-Command msbuild.exe).Path -NewName dotnet.exe -PassThru) -restore '-t:Build;Test' -bl:msbuild-full.binlog mtp-msbuild-repro.csproj
