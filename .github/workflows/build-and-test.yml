@@ -36,3 +36,18 @@ jobs:
         with:
           name: msbuild-full.binlog
           path: msbuild-full.binlog
+
+  msbuild-full-as-dotnetexe:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+      - uses: microsoft/setup-msbuild@v2
+      - run: |
+          Rename-Item (Join-Path (Split-Path (Get-Command msbuild.exe).Path) 'msbuild.exe.config') -NewName dotnet.exe.config
+          &(Rename-Item (Get-Command msbuild.exe).Path -NewName dotnet.exe -PassThru) -restore '-t:Build;Test' -bl:msbuild-full.binlog mtp-msbuild-repro.csproj
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: msbuild-full-as-dotnetexe.binlog
+          path: msbuild-full-as-dotnetexe.binlog
