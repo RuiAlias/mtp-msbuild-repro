@@ -3,23 +3,23 @@ jobs:
   core:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-dotnet@v4
-    - run: dotnet msbuild -t:Build;Test -bl:core.binlog mtp-msbuild-repro.csproj
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: core.binlog
-        path: core.binlog
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+      - run: dotnet msbuild -restore -t:Build;Test -bl:core.binlog mtp-msbuild-repro.csproj
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: core.binlog
+          path: core.binlog
 
   full:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: microsoft/setup-msbuild@v2
-    - run: msbuild -t:Build;Test -bl:full.binlog mtp-msbuild-repro.csproj
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: full.binlog
-        path: full.binlog
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v2
+      - run: msbuild -restore -t:Build;Test -bl:full.binlog mtp-msbuild-repro.csproj
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full.binlog
+          path: full.binlog
